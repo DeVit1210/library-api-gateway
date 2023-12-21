@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+
+        - id: books-provider-service
+          uri: lb://BOOKS-PROVIDER-SERVICE
+          predicates:
+            - Path=/books/**
+          filters:
+            - AuthenticationFilter
+
+        - id: library-service
+          uri: lb://LIBRARY-SERVICE
+          predicates:
+            - Path=/library/**
+          filters:
+            - AuthenticationFilter
+
+
+  application:
+    name: library-api-gateway
+
+server:
+  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone:
+        http://eurekaserver:8761/eureka
