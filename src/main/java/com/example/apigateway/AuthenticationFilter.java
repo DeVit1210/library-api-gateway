@@ -26,7 +26,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             if(authenticationHeader == null || !authenticationHeader.startsWith(jwtUtils.getTokenHeader())) {
                 throw new RuntimeException("missing authorization header");
             }
-            String jwtToken = authenticationHeader.substring(jwtUtils.getTokenHeader().length());
             return chain.filter(exchange);
         };
     }
